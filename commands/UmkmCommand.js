@@ -1,43 +1,89 @@
-const db = require("../config/Databases");
-const umkm = db.umkm;
-const fetch = require('node-fetch').default
 const axios = require('axios');
-const { Markup } = require('telegraf')
+require("dotenv").config();
+const fs = require('fs')
+const {MenuTemplate, MenuMiddleware, createBackMainMenuButtons} = require('telegraf-inline-menu')
 
+async function getData(params = '') {
+    const url = `${process.env.BASE_URI}/resto?name=${params}`
+    const raw = await axios.get(url)
+    const data = raw.data
+    return data
+}
 
-function resto(bot) {
-    bot.inlineQuery(/umkm\s.+/, async (ctx) => {
-        var query = ctx.inlineQuery.query.replace('umkm ', '');
-        const apiUrl = `http://localhost:9000/resto?name=${query}`;
-        var res = await axios.get(apiUrl);
-        var resArray = res.data;
-        var result = resArray.map(function (item, index) {
-            return {
-                type: "article",
-                id: String(index),
-                title: item.name,
-                description: `${item.description} \n ${item.address} \n ${item.telp}`,
-                input_message_content: {
-                    message_text: `${item.name} \n ${item.description}`,
-                    parse_mode: 'Markdown'
-                },
-                hide_url: false,
-                thumb_url: item.image,
-                reply_markup: {
-                    inline_keyboard: [
-                        [
-                            { text: 'More info', callback_data: 'moreinfo' },
-                            { text: 'Add to favorite', callback_data: 'addtofavorite' }
-                        ],
-                ]},
-            }
-        })
-        return await ctx.answerInlineQuery(result)
-    });
+async function headSelectedUmkm(ctx) {
+    var pathImage = './assets/image/'
+    // find data with id
+    var data = await getData(ctx.match[1])
+    if(data[0].image){
+        var image = pathImage + data[0].image
+    }else{
+        var image = pathImage + 'no-image.jpg'
+    }
+    return {
+        type: 'photo',
+        media: {
+            source: image
+        },
+        text: '<b>'+ data[0].name + ' - '+ data[0].address +'</b> \n' + data[0].description + '\n' + `(${data[0].category})`,
+        parse_mode: 'html'
+    }
+}
 
-    // bot.on('chosen_inline_result', (ctx) => {
-    //     console.log(ctx)
-    // })
+async function resto(bot) {
+    // get Data
+    const data = await getData()
+    const arrName = data.map(function(item) {
+        return item.name
+    })
+
+    // information UMKM
+    const informationUmkm = new MenuTemplate('informasi');
+    informationUmkm.url('Text', 'https://edjopato.de')
+    informationUmkm.manualRow(createBackMainMenuButtons())
+
+    
+    // selected Umkm
+    const selectedUmkm = new MenuTemplate((ctx) => headSelectedUmkm(ctx));
+    selectedUmkm.interact('Menu', 'menu', {
+        do: async ctx => {
+            console.log('Take a look at ctx.match. It contains the chosen city', ctx.match)
+            await ctx.answerCbQuery('You hit a button in a submenu')
+            return false
+        }
+    })
+    selectedUmkm.submenu('Informasi', 'info', informationUmkm, {
+        joinLastRow: true,
+    })
+
+    selectedUmkm.manualRow(createBackMainMenuButtons())
+
+    // daftar umkm
+    const menuUmkm = new MenuTemplate(`Silahkan pilih UMKM`);
+    let selectedKey = 'b'
+
+    menuUmkm.chooseIntoSubmenu('select', arrName, selectedUmkm, {
+        set: async (ctx, key) => {
+            selectedKey = key
+            // await ctx.answerCbQuery(key);
+            return false
+        },
+        isSet: (_, key) => key === selectedKey,
+        columns: 3,
+        maxRows: 2,
+        getCurrentPage: context => context.session.page,
+        setPage: (context, page) => {
+            context.session.page = page
+        },
+    })
+
+    const menuMiddleware = new MenuMiddleware('/', menuUmkm)
+
+    bot.command('umkm', (ctx) => {
+        menuMiddleware.replyToContext(ctx)
+    })
+
+    bot.use(menuMiddleware)
+
 }
 
 module.exports = resto;
