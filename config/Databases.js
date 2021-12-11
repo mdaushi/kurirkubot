@@ -16,5 +16,17 @@ db.sequelize = sequelize;
 //define model
 db.user = require('../models/User')(sequelize, Sequelize);
 db.umkm = require('../models/Umkm')(sequelize, Sequelize);
+db.jadwal = require('../models/Jadwal')(sequelize, Sequelize);
+
+
+// define relation
+db.umkm.hasMany(db.jadwal, {
+    as: 'jadwal',
+    foreignKey: 'restoId'
+});
+db.jadwal.belongsTo(db.umkm, {
+    as: 'umkm',
+    foreignKey: 'restoId'
+})
 
 module.exports = db;

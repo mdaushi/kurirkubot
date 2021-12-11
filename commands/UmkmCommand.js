@@ -37,8 +37,43 @@ async function resto(bot) {
     })
 
     // information UMKM
-    const informationUmkm = new MenuTemplate('informasi');
-    informationUmkm.url('Text', 'https://edjopato.de')
+    var informationOption = 'Lokasi'
+    const informationUmkm = new MenuTemplate( async (ctx) => {
+        var data = await getData(ctx.match[1])
+        if(informationOption === 'Lokasi'){
+            return {
+                venue: {
+                    location: {
+                        latitude: data[0].latitude,
+                        longitude: data[0].longitude
+                    },
+                    title: data[0].name,
+                    address: data[0].address,
+                },
+            }
+        }
+
+        if (informationOption === 'Jadwal Buka') {
+            var jadwal = data[0].jadwal
+            var textJadwal = '<b>'+ data[0].name +'</b> \n <b>Jam Operasional</b> : \n'
+            jadwal.map(function(item){
+                textJadwal += item.day + ' ' + item.start + ' - ' + item.end + '\n'
+            })
+            const operasional = {
+                text: textJadwal,
+                parse_mode: 'html'
+            }
+            return operasional
+        }
+    });
+    informationUmkm.select('typeOption', ['Jadwal Buka', 'Lokasi'], {
+        columns: 1,
+        isSet: (_, key) => informationOption === key,
+        set: (_, key) => {
+            informationOption = key
+            return true
+        },
+    });
     informationUmkm.manualRow(createBackMainMenuButtons())
 
     
@@ -51,6 +86,7 @@ async function resto(bot) {
             return false
         }
     })
+    let selectedinfokey= 'b'
     selectedUmkm.submenu('Informasi', 'info', informationUmkm, {
         joinLastRow: true,
     })

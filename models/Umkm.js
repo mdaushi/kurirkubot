@@ -6,6 +6,8 @@ module.exports = (sequelize, Sequelize) => {
         category: {type: Sequelize.STRING, allowNull: true},
         image: {type: Sequelize.STRING, allowNull: true},
         address: {type: Sequelize.STRING, allowNull: true},
+        latitude: {type: Sequelize.FLOAT, allowNull: true},
+        longitude: {type: Sequelize.FLOAT, allowNull: true},
         telp: {type: Sequelize.STRING, allowNull: true},
     },{
         frezeTableName: true,

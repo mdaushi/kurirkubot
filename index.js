@@ -22,10 +22,10 @@ app.use(express.static('assets'));
 const auth = require("./middleware/Auth");
 const isCommands = require("./middleware/isCommands");
 
-// db.sequelize.sync({
-//   alter: true,
-//   // force: true,
-// });
+db.sequelize.sync({
+  alter: true,
+  // force: true,
+});
 
 const bot = new Telegraf(process.env.TELEGRAM_KEY);
 
