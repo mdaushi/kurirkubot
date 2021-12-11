@@ -1,4 +1,3 @@
-const { umkm } = require("../config/Databases");
 
 module.exports = (sequelize, Sequelize) => {
     const jadwal = sequelize.define('jadwal', {

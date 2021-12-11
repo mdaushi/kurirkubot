@@ -2,7 +2,6 @@ const express = require('express');
 const db = require("../config/Databases");
 const umkm = db.umkm;
 const { Op } = require("sequelize");
-const jadwalModel = db.jadwal;
 
 
 // Get semua resto
