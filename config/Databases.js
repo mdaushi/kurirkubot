@@ -17,6 +17,7 @@ db.sequelize = sequelize;
 db.user = require('../models/User')(sequelize, Sequelize);
 db.umkm = require('../models/Umkm')(sequelize, Sequelize);
 db.jadwal = require('../models/Jadwal')(sequelize, Sequelize);
+db.menu = require('../models/Menu')(sequelize, Sequelize);
 
 
 // define relation
@@ -28,5 +29,10 @@ db.jadwal.belongsTo(db.umkm, {
     as: 'umkm',
     foreignKey: 'restoId'
 })
+
+// db.umkm.hasMany(db.menu, {
+//     as: 'menu',
+//     foreignKey: 'restoId'
+// })
 
 module.exports = db;
