@@ -10,14 +10,14 @@ const getAll = async (req, res) => {
         var query = req.query.name
         if (!query) {
             var product = await umkm.findAll({
-                include: ["jadwal"],
+                include: ["jadwal", "menu"],
                 order:[
                     ['jadwal','createdAt','DESC']
                 ]
             })
         }else{
             var product = await umkm.findAll({
-                include: ["jadwal"],
+                include: ["jadwal", "menu"],
                 where:{
                     name:{
                         [Op.like]: '%'+query+'%'

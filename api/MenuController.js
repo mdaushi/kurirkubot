@@ -21,6 +21,21 @@ const getMenus = async (req, res) => {
     }
 }
 
+const getMenuByUmkm = async (req, res) => {
+    try {
+        var id = req.params.id;
+        var menus = await menu.findAll({
+            where: {
+                restoId: id
+            }
+        });
+        res.send(menus);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
-    getMenus
+    getMenus,
+    getMenuByUmkm
 }

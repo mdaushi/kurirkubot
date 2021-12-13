@@ -30,9 +30,9 @@ db.jadwal.belongsTo(db.umkm, {
     foreignKey: 'restoId'
 })
 
-// db.umkm.hasMany(db.menu, {
-//     as: 'menu',
-//     foreignKey: 'restoId'
-// })
+db.umkm.hasMany(db.menu, {
+    as: 'menu',
+    foreignKey: 'restoId'
+})
 
 module.exports = db;
