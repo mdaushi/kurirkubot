@@ -10,6 +10,14 @@ async function getDataMenus(umkmId){
     return arrMenu
 }
 
+async function menuIsSelected(menuSelected, id) {
+    const data = await getDataMenus(id)
+    if(data.includes(menuSelected)){
+        return false
+    }
+    return true
+}
+
 // menu UMKM
 var menuOption = 'menu'
 const menu = new MenuTemplate( async ctx =>{
@@ -32,5 +40,12 @@ menu.select('menuOption', ctx => {
     }
 })
 menu.manualRow(createBackMainMenuButtons())
+menu.interact('Pesan', 'pesan', {
+	do: async ctx => {
+		await ctx.answerCbQuery('yaay')
+		return false
+	},
+    hide: (ctx) => menuIsSelected(menuOption, ctx.match[1].split('-')[1])
+})
 
 module.exports = menu;
