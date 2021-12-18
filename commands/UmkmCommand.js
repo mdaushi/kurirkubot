@@ -2,17 +2,8 @@ require("dotenv").config();
 
 const {MenuTemplate, MenuMiddleware, createBackMainMenuButtons} = require('telegraf-inline-menu');
 const getData = require('../component/getData');
-const {getMenus} = require("../component/getMenus");
-const headSelectedMenu = require("../component/headSelectedMenu");
 const headSelectedUmkm = require('../component/headSelectedUmkm');
-
-async function getDataMenus(umkmId){
-    const menusRaw = await getMenus(umkmId)
-    const arrMenu = menusRaw.map(function(item) {
-        return item.name
-    })
-    return arrMenu
-}
+const menus = require("../component/Menus");
 
 async function resto(bot) {
     // get Data
@@ -60,35 +51,12 @@ async function resto(bot) {
         },
     });
     informationUmkm.manualRow(createBackMainMenuButtons())
-
-    // menu UMKM
-    var menuOption = 'menu'
-    const menu = new MenuTemplate( async ctx =>{
-        return headSelectedMenu(menuOption, ctx.match[1].split('-')[1])
-    })
-
-    menu.select('menuOption', ctx => {
-        return getDataMenus(ctx.match[1].split('-')[1])
-    }, {
-        columns: 2,
-        maxRows: 5,
-        isSet: (_, key) => menuOption === key,
-        set: (_, key) => {
-            menuOption = key
-            return true
-        },
-        getCurrentPage: context => context.session.page,
-        setPage: (context, page) => {
-            context.session.page = page
-        }
-    })
-    menu.manualRow(createBackMainMenuButtons())
    
     // selected Umkm
     const selectedUmkm = new MenuTemplate((ctx) => {
         return headSelectedUmkm(ctx)
     });
-    selectedUmkm.submenu('Menu', 'menu', menu)
+    selectedUmkm.submenu('Menu', 'menu', menus)
 
     selectedUmkm.submenu('Informasi', 'info', informationUmkm, {
         joinLastRow: true,
