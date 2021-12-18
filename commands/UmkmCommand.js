@@ -64,7 +64,7 @@ async function resto(bot) {
     // menu UMKM
     var menuOption = 'menu'
     const menu = new MenuTemplate( async ctx =>{
-        return headSelectedMenu(menuOption)
+        return headSelectedMenu(menuOption, ctx.match[1].split('-')[1])
     })
 
     menu.select('menuOption', ctx => {

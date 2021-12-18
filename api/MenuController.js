@@ -1,9 +1,10 @@
 const { Op } = require("sequelize");
 const { menu } = require("../config/Databases");
 
-const getMenus = async (req, res) => {
+const getMenu = async (req, res) => {
     try {
         var query = req.query.name;
+        var id = req.query.id;
         if(!query) {
             var menus = await menu.findAll();
         }else{
@@ -11,7 +12,8 @@ const getMenus = async (req, res) => {
                 where: {
                     name: {
                         [Op.like]: `%${query}%`
-                    }
+                    },
+                    restoId: id
                 }
             })
         }
@@ -36,6 +38,6 @@ const getMenuByUmkm = async (req, res) => {
 }
 
 module.exports = {
-    getMenus,
+    getMenu,
     getMenuByUmkm
 }

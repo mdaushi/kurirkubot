@@ -2,9 +2,9 @@
 const getMenus = require("./getMenus")
 const toRupiah = require("@develoka/angka-rupiah-js")
 
-async function headSelectedMenu(menuOption) {
+async function headSelectedMenu(menuOption, id) {
     var pathImage = './assets/image/'
-    var data = await getMenus.getMenu(menuOption)
+    var data = await getMenus.getMenu(menuOption, id)
     if(data.length === 0){
         return 'Silahkan Pilih Menu'
     }

@@ -7,8 +7,8 @@ async function getMenus(params = '') {
     return data
 }
 
-async function getMenu(query) {
-    const url = `${process.env.BASE_URI}/menus?name=${query}`;
+async function getMenu(query, id) {
+    const url = `${process.env.BASE_URI}/menus?name=${query}&id=${id}`;
     const raw = await axios.get(url)
     const data = raw.data
     return data
