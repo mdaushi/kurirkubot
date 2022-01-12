@@ -18,6 +18,7 @@ db.user = require('../models/User')(sequelize, Sequelize);
 db.umkm = require('../models/Umkm')(sequelize, Sequelize);
 db.jadwal = require('../models/Jadwal')(sequelize, Sequelize);
 db.menu = require('../models/Menu')(sequelize, Sequelize);
+db.order = require('../models/Order')(sequelize, Sequelize);
 
 
 // define relation
