@@ -6,7 +6,7 @@ const Order = require('./Order');
 async function getDataMenus(umkmId){
     const menusRaw = await getMenus(umkmId)
     const arrMenu = menusRaw.map(function(item) {
-        return item.name
+        return item.name + '-' + item.id
     })
     return arrMenu
 }
@@ -26,7 +26,8 @@ const menu = new MenuTemplate( async ctx =>{
 })
 
 menu.select('menuOption', ctx => {
-    ctx.session.menuSelected = menuOption
+    ctx.session.menuSelected = menuOption.split('-')[0]
+    ctx.session.menuSelectedId = menuOption.split('-')[1]
     return getDataMenus(ctx.match[1].split('-')[1])
 }, {
     columns: 2,
@@ -35,6 +36,9 @@ menu.select('menuOption', ctx => {
     set: (_, key) => {
         menuOption = key
         return true
+    },
+    buttonText: (ctx, key) => {
+        return key.split('-')[0]
     },
     getCurrentPage: context => context.session.page,
     setPage: (context, page) => {

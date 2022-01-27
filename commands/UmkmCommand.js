@@ -54,6 +54,7 @@ async function resto(bot) {
    
     // selected Umkm
     const selectedUmkm = new MenuTemplate((ctx) => {
+        ctx.session.umkmSelected = ctx.match[1].split('-')[1];
         return headSelectedUmkm(ctx)
     });
     selectedUmkm.submenu('Menu', 'menu', menus)

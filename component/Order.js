@@ -54,7 +54,14 @@ Order.interact('Proses Pesanan', 'checkout', {
 
         // })
         // 452275375
-        context.telegram.sendMessage('452275375','Pesanan berhasil ditambahkan.')
+        const dataOrder = await order.create({
+            menuId: context.session.menuSelectedId,
+            // userId: '',
+            restoId: context.session.umkmSelected,
+            status: 'Mencari Driver',
+            quantity: context.session.quantity,
+        })
+        context.telegram.sendMessage('452275375',context.session)
         context.answerCbQuery('Checkout.')
 		// Make sure not to try to update the menu afterwards. You just deleted it and it would just fail to update a missing message.
 		return false

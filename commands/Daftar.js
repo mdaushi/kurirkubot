@@ -62,7 +62,11 @@ function daftar(bot){
     });
 
     bot.use(session(), stage.middleware());
-    bot.command('daftar', (ctx) => {
+    bot.command('daftar', async (ctx) => {
+        const isAuth = await auth(ctx)
+        if(isAuth){
+            return ctx.reply('Anda telah terdaftar')
+        }
         ctx.scene.enter('registerScene');
     })
 }

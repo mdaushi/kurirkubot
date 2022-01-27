@@ -21,11 +21,12 @@ app.use(express.static('assets'));
 // required
 const auth = require("./middleware/Auth");
 const isCommands = require("./middleware/isCommands");
+const { default: axios } = require("axios");
 
-db.sequelize.sync({
-  alter: true,
-  // force: true,
-});
+// db.sequelize.sync({
+//   alter: true,
+//   // force: true,
+// });
 
 const bot = new Telegraf(process.env.TELEGRAM_KEY);
 
@@ -33,10 +34,27 @@ const bot = new Telegraf(process.env.TELEGRAM_KEY);
  * Middleware
  * every command is initalized with this middleware
  */
+
 // bot.use(async (ctx, next) => {
-//   await isCommands(ctx, next)
+//     const isAuth = await auth(ctx)
+//     if(isAuth){
+//         return next();
+//     }
+//     return ctx.reply('Anda belum terdaftar, silahkan daftar terlebih dahulu.')
 // });
 
+bot.use(async (ctx, next) => {
+    const id = ctx.chat.id
+    const url = `${process.env.BASE_URI}/user/islogin/${id}`;
+    const raw = await axios.get(url)
+    const data = raw.data
+    
+    const isSession = {
+        [id]: data
+    }
+    ctx.session = isSession
+    return next()
+})
 
 // commands
 require("./commands/Daftar")(bot);
