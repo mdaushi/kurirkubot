@@ -1,7 +1,7 @@
 const { Markup, session, Scenes: { WizardScene, Stage } } = require('telegraf');
 const db = require("../config/Databases");
-const auth = require('../middleware/Auth');
 const User = db.user;
+const property = 'data'
 
 
 async function storeData(name, wa, address, status, member, telegram_id)
@@ -44,6 +44,7 @@ function daftar(bot){
             telegram_id = ctx.from.id
 
             storeData(name, wa, address, status, member, telegram_id)
+            ctx[property + 'DB'].get('users').push({id : telegram_id}).write()
 			await ctx.replyWithHTML('<b>Selamat Registrasi Berhasil.</b>',remove_keyboard)
 			return ctx.scene.leave()
 		}
@@ -63,9 +64,8 @@ function daftar(bot){
 
     bot.use(session(), stage.middleware());
     bot.command('daftar', async (ctx) => {
-        const isAuth = await auth(ctx)
-        if(isAuth){
-            return ctx.reply('Anda telah terdaftar')
+        if(ctx[property + 'DB'].get('users').getById(ctx.from.id).value()){
+            return ctx.reply('Anda sudah terdaftar.')
         }
         ctx.scene.enter('registerScene');
     })
