@@ -2,6 +2,7 @@ const {MenuTemplate, createBackMainMenuButtons} = require('telegraf-inline-menu'
 const headSelectedMenu = require("../component/headSelectedMenu");
 const {getMenus} = require("../component/getMenus");
 const Order = require('./Order');
+const property = 'data'
 
 async function getDataMenus(umkmId){
     const menusRaw = await getMenus(umkmId)
@@ -22,12 +23,13 @@ async function menuIsSelected(menuSelected, id) {
 // menu UMKM
 var menuOption = 'menu'
 const menu = new MenuTemplate( async ctx =>{
-    return headSelectedMenu(menuOption, ctx.match[1].split('-')[1])
+    return headSelectedMenu(menuOption.split('-')[0], ctx.match[1].split('-')[1])
 })
 
 menu.select('menuOption', ctx => {
-    ctx.session.menuSelected = menuOption.split('-')[0]
-    ctx.session.menuSelectedId = menuOption.split('-')[1]
+    ctx[property].menuSelected = menuOption.split('-')[0]
+    console.log(ctx[property].menuSelected)
+    ctx[property].menuSelectedId = menuOption.split('-')[1]
     return getDataMenus(ctx.match[1].split('-')[1])
 }, {
     columns: 2,

@@ -34,6 +34,17 @@ const getAll = async (req, res) => {
     }
 }
 
+const getById = async (req, res) =>{
+    const id = req.params.id
+    try {
+        var resto = await umkm.findByPk(id)
+        res.send(resto)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
-    getAll
+    getAll,
+    getById
 }

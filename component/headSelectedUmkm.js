@@ -1,4 +1,4 @@
-const getData = require("./getData")
+const {getData} = require("./getData")
 
 async function headSelectedUmkm(ctx) {
     var pathImage = './assets/image/'

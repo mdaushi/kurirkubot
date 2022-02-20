@@ -36,4 +36,9 @@ db.umkm.hasMany(db.menu, {
     foreignKey: 'restoId'
 })
 
+db.user.hasMany(db.order, {
+    as: 'orderCount',
+    foreignKey: "driverId"
+})
+
 module.exports = db;

@@ -15,6 +15,17 @@ const isLogin = async (req, res) => {
     }
 }
 
+const userById = async (req, res) => {
+    const id = req.params.id
+    try {
+        var users = await user.findByPk(id)
+        res.send(users);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 module.exports = {
-    isLogin
+    isLogin,
+    userById
 }

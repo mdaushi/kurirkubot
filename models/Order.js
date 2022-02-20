@@ -21,6 +21,8 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.INTEGER,
             allowNull: true
         },
+
+        // Mencari Driver, Pesanan diterima, Pesanan dibatalkan, Pesanan Selesai
         status: {
             type: Sequelize.STRING,
             allowNull: false
@@ -31,7 +33,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         address : {
             type: Sequelize.STRING,
-            allowNull: false
+            allowNull: true
         }
     })
 

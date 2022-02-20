@@ -1,11 +1,23 @@
 const db = require("../config/Databases")
-const user = db.user
+const axios = require('axios')
 
-async function sort() {
+async function findDriver() {
     const url = `${process.env.BASE_URI}/algorithm/find/driver`
     const raw = await axios.get(url)
-    const data = raw.data
-    return data
+    const arrData = raw.data
+
+    const ordered = arrData.sort(compore)
+    return ordered[0]
 }
 
-module.exports = sort;
+const compore = (a,b) => {
+    if ( a.totalOrder < b.totalOrder ){
+        return -1;
+    }
+    if ( a.totalOrder > b.totalOrder ){
+        return 1;
+    }
+    return 0;
+}
+
+module.exports = findDriver;

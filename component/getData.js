@@ -7,4 +7,14 @@ async function getData(params = '') {
     return data
 }
 
-module.exports = getData
+async function getDataById(id) {
+    const url = `${process.env.BASE_URI}/resto/${id}`
+    const raw = await axios.get(url)
+    const data = raw.data
+    return data
+}
+
+module.exports = {
+    getData,
+    getDataById
+}

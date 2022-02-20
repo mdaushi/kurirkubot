@@ -1,9 +1,11 @@
 require("dotenv").config();
 
 const {MenuTemplate, MenuMiddleware, createBackMainMenuButtons} = require('telegraf-inline-menu');
-const getData = require('../component/getData');
+const {getData} = require('../component/getData');
 const headSelectedUmkm = require('../component/headSelectedUmkm');
 const menus = require("../component/Menus");
+const auth = require("../middleware/Auth");
+const property = 'data'
 
 async function resto(bot) {
     // get Data
@@ -54,7 +56,7 @@ async function resto(bot) {
    
     // selected Umkm
     const selectedUmkm = new MenuTemplate((ctx) => {
-        ctx.session.umkmSelected = ctx.match[1].split('-')[1];
+        ctx[property].umkmSelected = ctx.match[1].split('-')[1];
         return headSelectedUmkm(ctx)
     });
     selectedUmkm.submenu('Menu', 'menu', menus)
@@ -90,7 +92,7 @@ async function resto(bot) {
     const menuMiddleware = new MenuMiddleware('/', menuUmkm)
     // console.log(menuMiddleware.tree())
 
-    bot.command('umkm', (ctx) => {
+    bot.command('umkm', auth, (ctx) => {
         menuMiddleware.replyToContext(ctx)
     })
 
