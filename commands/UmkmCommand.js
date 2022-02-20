@@ -17,7 +17,7 @@ async function resto(bot) {
     // information UMKM
     var informationOption = 'Lokasi'
     const informationUmkm = new MenuTemplate( async (ctx) => {
-        var data = await getData(ctx.match[1])
+        var data = await getData(ctx.match[1].split('-')[0])
         if(informationOption === 'Lokasi'){
             return {
                 venue: {
