@@ -7,7 +7,7 @@ async function findDriver() {
     const arrData = raw.data
 
     const ordered = arrData.sort(compore)
-    return ordered[0]
+    return ordered
 }
 
 const compore = (a,b) => {

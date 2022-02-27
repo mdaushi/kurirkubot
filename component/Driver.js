@@ -16,6 +16,9 @@ const DriverComponent = async (context, idOrderan) => {
     const umkm = await getDataById(context[property].umkmSelected)
     var driver = await findDriver();
 
+    context.session.driverActive = driver.length;
+    context.session.isDriver = 0;
+
     // format confirm driver
     var resConfirmDriver = '';
     resConfirmDriver += `Nama Pemesan : ${userPembeli.name} \n`
@@ -29,7 +32,7 @@ const DriverComponent = async (context, idOrderan) => {
     resConfirmDriver += `Nama UMKM : ${umkm.name} \n`
     resConfirmDriver += `Lokasi UMKM : ${umkm.address} \n`
 
-    context.telegram.sendMessage(driver.telegram_id, resConfirmDriver, {
+    context.telegram.sendMessage(driver[context.session.isDriver].telegram_id, resConfirmDriver, {
         reply_markup: {
             inline_keyboard: [
                 [
@@ -41,7 +44,30 @@ const DriverComponent = async (context, idOrderan) => {
     })
 
     global.bot.action('tolakPesanan', async (ctx) => {
-        console.log('tolak pesanan')
+        ctx.tg.deleteMessage(ctx.chat.id, ctx.update.callback_query.message.message_id)
+
+        // sending message to another driver
+        context.session.isDriver = context.session.isDriver + 1;
+        console.log(context.session.isDriver)
+        console.log(context.session.driverActive)
+        if (context.session.isDriver < context.session.driverActive) {
+            ctx.telegram.sendMessage(driver[context.session.isDriver].telegram_id, resConfirmDriver, {
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            { text: 'Tolak Pesanan', callback_data: 'tolakPesanan' },
+                            { text: 'Terima Pesanan', callback_data: 'terimaPesanan' }
+                        ]
+                    ]
+                }
+            })
+        }else{
+            const orderan = await getOrderById(idOrderan)
+            const user = await getUserById(orderan.userId)
+            // kirim informasi ke user
+            return ctx.telegram.sendMessage(user.telegram_id, `Maaf, driver tidak ditemukan.`)
+        }
+
     })
 
     global.bot.action('terimaPesanan', async (ctx) => {
