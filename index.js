@@ -81,6 +81,7 @@ bot.use(localSession.middleware(property))
 require("./commands/Start")(bot);
 require("./commands/Daftar")(bot);
 require("./commands/UmkmCommand")(bot);
+require("./commands/Status")(bot);
 bot.command("kontak", (ctx) => {
     // ctx.tg.sendContact(ctx.chat.id, '087850075180', 'Aqri', {
     //     protect_content: true,
