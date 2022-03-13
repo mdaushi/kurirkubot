@@ -1,5 +1,3 @@
-const { Markup } = require("telegraf")
-const auth = require("../middleware/Auth")
 const property = 'data'
 
 const start = (bot) =>{

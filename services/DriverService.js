@@ -1,5 +1,4 @@
 const { order } = require('../config/Databases');
-const property = 'data'
 const axios = require('axios');
 
 const driverAccepted = async (context, idOrderan) => {

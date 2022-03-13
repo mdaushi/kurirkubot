@@ -1,21 +1,13 @@
-// 'use strict';
+'use strict';
 const {MenuTemplate, deleteMenuFromContext, replyMenuToContext, MenuMiddleware} = require('telegraf-inline-menu');
 const { getMenu } = require('./getMenus');
 const toRupiah = require("@develoka/angka-rupiah-js");
 const { order } = require('../config/Databases');
-const findDriver = require('../services/bubblesort');
-const { getUserById } = require('./getUser');
-const { getDataById } = require('./getData');
-const { sendToDriver } = require('../services/DriverService');
 const DriverComponent = require('./Driver');
-const { Markup } = require('telegraf');
-const { get } = require('../routes/api');
-// const DriverComponent = './Driver.js'
 const { default: axios } = require("axios");
 
 
 const property = 'data'
-const onProses = 'messages'
 
 const Order = new MenuTemplate( async ctx => {
     const menuSelected = await getMenu(ctx[property].menuSelected, ctx.match[1].split('-')[1])
@@ -41,13 +33,7 @@ Order.select('order', ['-', '+'], {
 		return '.'
 	}
 })
-// Order.interact('Tujuan', 'tujuan', {
-// 	do: async context => {
-//         context.answerCbQuery('Lokasi Pengiriman')
-// 		// Make sure not to try to update the menu afterwards. You just deleted it and it would just fail to update a missing message.
-// 		return false
-// 	}
-// })
+
 Order.interact('Batalkan Pesanan', 'cancelOrder', {
 	do: async context => {
         context[property] = null

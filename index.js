@@ -1,8 +1,8 @@
 // import libs
-const { Telegraf, session } = require("telegraf");
+const { Telegraf } = require("telegraf");
 require("dotenv").config();
 const express = require('express');
-// const cors = require('cors');
+
 const Router = require('./routes/api');
 const LocalSession = require('telegraf-session-local')
 
@@ -10,18 +10,11 @@ const LocalSession = require('telegraf-session-local')
 // config
 const db = require("./config/Databases");
 const app = express();
-// use express json
 app.use(express.json());
-// use cors
-// app.use(cors());
-// use router
 app.use(Router);
 app.use(express.static('assets'));
 
 
-// required
-// const auth = require("./middleware/Auth");
-// const isCommands = require("./middleware/isCommands");
 const { default: axios } = require("axios");
 
 // db.sequelize.sync({
@@ -82,20 +75,8 @@ require("./commands/Start")(bot);
 require("./commands/Daftar")(bot);
 require("./commands/UmkmCommand")(bot);
 require("./commands/Status")(bot);
-bot.command("kontak", (ctx) => {
-    // ctx.tg.sendContact(ctx.chat.id, '087850075180', 'Aqri', {
-    //     protect_content: true,
-    //     vcard: 'Banteng',
-
-    // })
-    ctx.tg.sendMessage(ctx.chat.id, 'Aqri', {
-        parse_mode: 'HTML',
-    })
-})
-
 
 bot.launch();
-// Markup.removeKeyboard();
 const port = 9000;
 app.listen(port, () => {
     console.log('Server started');

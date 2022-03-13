@@ -1,4 +1,3 @@
-const db = require("../config/Databases")
 const axios = require('axios')
 
 async function findDriver() {
