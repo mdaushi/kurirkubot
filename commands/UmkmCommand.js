@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const {MenuTemplate, MenuMiddleware, createBackMainMenuButtons} = require('telegraf-inline-menu');
-const {getData} = require('../component/getData');
+const {getDataById, getData} = require('../component/getData');
 const headSelectedUmkm = require('../component/headSelectedUmkm');
 const menus = require("../component/Menus");
 const auth = require("../middleware/Auth");
@@ -17,23 +17,23 @@ async function resto(bot) {
     // information UMKM
     var informationOption = 'Lokasi'
     const informationUmkm = new MenuTemplate( async (ctx) => {
-        var data = await getData(ctx.match[1].split('-')[0])
+        var data = await getDataById(ctx.match[1].split('-')[1])
         if(informationOption === 'Lokasi'){
             return {
                 venue: {
                     location: {
-                        latitude: data[0].latitude,
-                        longitude: data[0].longitude
+                        latitude: data.latitude,
+                        longitude: data.longitude
                     },
-                    title: data[0].name,
-                    address: data[0].address,
+                    title: data.name,
+                    address: data.address,
                 },
             }
         }
 
         if (informationOption === 'Jadwal Buka') {
-            var jadwal = data[0].jadwal
-            var textJadwal = '<b>'+ data[0].name +'</b> \n <b>Jam Operasional</b> : \n'
+            var jadwal = data.jadwal
+            var textJadwal = '<b>'+ data.name +'</b> \n <b>Jam Operasional</b> : \n'
             jadwal.map(function(item){
                 textJadwal += item.day + ' ' + item.start + ' - ' + item.end + '\n'
             })

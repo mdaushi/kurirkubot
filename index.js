@@ -64,18 +64,18 @@ bot.use(localSession.middleware(property))
  * every command is initalized with this middleware
  */
 
-// bot.use(async (ctx, next) => {
-//     const id = ctx.chat.id
-//     const url = `${process.env.BASE_URI}/user/islogin/${id}`;
-//     const raw = await axios.get(url)
-//     const data = raw.data
+bot.use(async (ctx, next) => {
+    const id = ctx.chat.id
+    const url = `${process.env.BASE_URI}/user/islogin/${id}`;
+    const raw = await axios.get(url)
+    const data = raw.data
     
-//     const isSession = {
-//         [id]: data
-//     }
-//     ctx.session = isSession
-//     return next()
-// })
+    const user = {
+        id: data.id,
+    }
+    ctx[property].user = user
+    return next()
+})
 
 // commands
 require("./commands/Start")(bot);

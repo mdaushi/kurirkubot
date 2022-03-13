@@ -37,7 +37,9 @@ const getAll = async (req, res) => {
 const getById = async (req, res) =>{
     const id = req.params.id
     try {
-        var resto = await umkm.findByPk(id)
+        var resto = await umkm.findByPk(id, {
+            include: ["jadwal"]
+        })
         res.send(resto)
     } catch (error) {
         console.log(error)
