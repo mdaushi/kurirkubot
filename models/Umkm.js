@@ -9,6 +9,7 @@ module.exports = (sequelize, Sequelize) => {
         latitude: {type: Sequelize.FLOAT, allowNull: true},
         longitude: {type: Sequelize.FLOAT, allowNull: true},
         telp: {type: Sequelize.STRING, allowNull: true},
+        sumber: {type: Sequelize.STRING, allowNull: true},
     },{
         frezeTableName: true,
     });

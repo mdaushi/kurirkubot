@@ -14,6 +14,7 @@ async function getDataMenus(umkmId){
 
 async function menuIsSelected(menuSelected, id) {
     const data = await getDataMenus(id)
+    console.log(data)
     if(data.includes(menuSelected)){
         return false
     }

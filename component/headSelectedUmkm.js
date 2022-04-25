@@ -16,7 +16,7 @@ async function headSelectedUmkm(ctx) {
         media: {
             source: image
         },
-        text: '<b>'+ data[0].name + ' - '+ data[0].address +'</b> \n' + data[0].description + '\n' + `(${data[0].category})`,
+        text: '<b>'+ data[0].name + ' - '+ data[0].address +'</b> \n' + data[0].description + '\n' + `(${data[0].sumber})`,
         parse_mode: 'html'
     }
 }

@@ -43,8 +43,16 @@ async function resto(bot) {
             }
             return operasional
         }
+
+        if(informationOption === 'Sumber'){
+            const sumber = {
+                text: data.sumber,
+                parse_mode: 'html'
+            }
+            return sumber
+        }
     });
-    informationUmkm.select('typeOption', ['Jadwal Buka', 'Lokasi'], {
+    informationUmkm.select('typeOption', ['Jadwal Buka', 'Lokasi', 'Sumber'], {
         columns: 1,
         isSet: (_, key) => informationOption === key,
         set: (_, key) => {

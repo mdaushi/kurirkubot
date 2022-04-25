@@ -27,7 +27,7 @@ function daftar(bot){
         // step 2
 		async (ctx) => {
 			name = ctx.message.text
-			await ctx.reply('Nomor Whatsapp : ', exit_keyboard)
+			await ctx.reply('Nomor Telepon : ', exit_keyboard)
 			return ctx.wizard.next()
 		},
 		// step 3

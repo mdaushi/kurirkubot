@@ -1,20 +1,54 @@
 {
   "users": [
     {
+      "id": 1671697132
+    },
+    {
       "id": 452275375
+    },
+    {
+      "id": 5181872835
     }
   ],
   "sessions": [
     {
+      "id": "1671697132:1671697132",
+      "data": {
+        "umkmSelected": "5",
+        "user": {
+          "id": 1
+        },
+        "menuSelected": "menu"
+      }
+    },
+    {
       "id": "452275375:452275375",
+      "data": {
+        "umkmSelected": "2",
+        "menuSelected": "Naskun Telur",
+        "quantity": 1,
+        "user": {
+          "id": 4
+        },
+        "menuSelectedId": "4"
+      }
+    },
+    {
+      "id": "1327269404:1327269404",
+      "data": {
+        "user": {}
+      }
+    },
+    {
+      "id": "5181872835:5181872835",
       "data": {
         "user": {
           "id": 5
         },
-        "menuSelected": "Donat Kukus Siram",
-        "umkmSelected": "1",
-        "quantity": 1,
-        "menuSelectedId": "1"
+        "umkmSelected": "2",
+        "menuSelected": "Naskun Daging",
+        "menuSelectedId": "6",
+        "quantity": 2
       }
     }
   ]
